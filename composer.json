@@ -9,5 +9,12 @@
             "email": "m.helmich@mittwald.de"
         }
     ],
-    "require": {}
+    "require": {
+        "league/oauth2-client": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "MW\\Spaces\\OAuth2\\": "src"
+        }
+    }
 }
