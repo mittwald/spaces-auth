@@ -1,5 +1,5 @@
 <?php
-namespace MW\Spaces\OAuth2;
+namespace Mw\Spaces\OAuth2;
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 

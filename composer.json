@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "MW\\Spaces\\OAuth2\\": "src"
+            "Mw\\Spaces\\OAuth2\\": "src"
         }
     }
 }

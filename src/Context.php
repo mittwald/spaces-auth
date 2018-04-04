@@ -1,5 +1,5 @@
 <?php
-namespace MW\Spaces\OAuth2;
+namespace Mw\Spaces\OAuth2;
 
 
 interface Context

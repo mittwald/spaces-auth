@@ -1,17 +1,29 @@
 <?php
-namespace MW\Spaces\OAuth2;
+namespace Mw\Spaces\OAuth2;
 
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Provider\GenericProvider;
 use League\OAuth2\Client\Token\AccessToken;
-use MW\Spaces\OAuth2\Error\UserNotPresentException;
+use Mw\Spaces\OAuth2\Error\UserNotPresentException;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * OAuth2 provider for SPACES login
+ *
+ * @package Mw\Spaces\OAuth2
+ */
 class SpacesProvider extends GenericProvider
 {
     /** @var Options */
     private $opts;
 
+    /**
+     * SpacesProvider constructor.
+     *
+     * @param Options $opts Options for building the client.
+     * @param Context $ctx The authentication context. This is typically user-provided
+     *                     and needs to implement logic like building the redirect URL.
+     */
     public function __construct(Options $opts, Context $ctx)
     {
         $baseURL = $opts->getSignupBaseURI();
@@ -45,6 +57,13 @@ class SpacesProvider extends GenericProvider
             throw $err;
         }
     }
+
+    public function getAuthorizationUrl(array $options = [])
+    {
+        $options["scope"] = ['profile:read', 'spaces:read'];
+        return parent::getAuthorizationUrl($options);
+    }
+
 
     protected function createResourceOwner(array $response, AccessToken $token)
     {

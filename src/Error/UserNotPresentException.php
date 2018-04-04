@@ -1,5 +1,5 @@
 <?php
-namespace MW\Spaces\OAuth2\Error;
+namespace Mw\Spaces\OAuth2\Error;
 
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
