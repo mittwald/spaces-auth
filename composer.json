@@ -1,0 +1,13 @@
+{
+    "name": "spaces/oauth2",
+    "description": "OAuth 2.0 authentication for Mittwald SPACES",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martin Helmich",
+            "email": "m.helmich@mittwald.de"
+        }
+    ],
+    "require": {}
+}
