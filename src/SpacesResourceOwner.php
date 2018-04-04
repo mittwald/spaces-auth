@@ -57,7 +57,10 @@ class SpacesResourceOwner implements ResourceOwnerInterface
      */
     public function getFullName()
     {
-        return trim($this->response["profile"]["firstName"] . " " . $this->response["profile"]["lastName"]);
+        $first = isset($this->response["profile"]["firstName"]) ? $this->response["profile"]["firstName"] : "";
+        $last = isset($this->response["profile"]["lastName"]) ? $this->response["profile"]["lastName"] : "";
+
+        return trim($first . " " . $last);
     }
 
     /**

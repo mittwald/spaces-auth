@@ -20,23 +20,26 @@ class SpacesProvider extends GenericProvider
     /**
      * SpacesProvider constructor.
      *
-     * @param Options $opts Options for building the client.
-     * @param Context $ctx The authentication context. This is typically user-provided
-     *                     and needs to implement logic like building the redirect URL.
+     * @param Options $opts          Options for building the client.
+     * @param Context $ctx           The authentication context. This is typically user-provided
+     *                               and needs to implement logic like building the redirect URL.
+     * @param array   $options       Additional options that should be passed to the underlying
+     *                               provider
+     * @param array   $collaborators Super-simple DI container
      */
-    public function __construct(Options $opts, Context $ctx)
+    public function __construct(Options $opts, Context $ctx, array $options = [], array $collaborators = [])
     {
         $baseURL = $opts->getSignupBaseURI();
         $this->opts = $opts;
 
-        parent::__construct([
+        parent::__construct(array_merge($options, [
             "clientId" => $opts->getClientID(),
             "clientSecret" => "",
             "redirectUri" => $ctx->getRedirectURI(),
             "urlAuthorize" => $baseURL . "/o/oauth2/auth",
             "urlAccessToken" => $baseURL . "/o/oauth2/token",
             "urlResourceOwnerDetails" => $baseURL . "/o/oauth2/profile?spaceID=" . urlencode($opts->getSpaceID()),
-        ]);
+        ]), $collaborators);
     }
 
     /**
@@ -60,7 +63,10 @@ class SpacesProvider extends GenericProvider
 
     public function getAuthorizationUrl(array $options = [])
     {
-        $options["scope"] = ['profile:read', 'spaces:read'];
+        if (!isset($options["scope"])) {
+            $options["scope"] = ['profile:read', 'spaces:read'];
+        }
+
         return parent::getAuthorizationUrl($options);
     }
 
