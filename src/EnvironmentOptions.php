@@ -6,6 +6,7 @@ use InvalidArgumentException;
 class EnvironmentOptions implements Options
 {
     const ENV_SPACE_ID = "SPACES_SPACE_ID";
+    const ENV_SIGNUP_URL = "SPACES_SIGNUP_URL";
     const ENV_OAUTH_SERVER_URL = "SPACES_OAUTH_SERVER_URL";
     const ENV_OAUTH_CLIENT_ID = "SPACES_OAUTH_CLIENT_ID";
 
@@ -31,7 +32,14 @@ class EnvironmentOptions implements Options
             throw new InvalidArgumentException('missing environment variable: "' . static::ENV_SPACE_ID . '"');
         }
 
-        $this->signupURL = $environment[static::ENV_OAUTH_SERVER_URL] ?: static::DEFAULT_OAUTH_SERVER_URL;
+        if (isset($environment[static::ENV_SIGNUP_URL])) {
+            $this->signupURL = $environment[static::ENV_SIGNUP_URL];
+        } else if (isset($environment[static::ENV_OAUTH_SERVER_URL])) {
+            $this->signupURL = $environment[static::ENV_OAUTH_SERVER_URL];
+        } else {
+            $this->signupURL = static::DEFAULT_OAUTH_SERVER_URL;
+        }
+
         $this->spaceID = $environment[static::ENV_SPACE_ID];
         $this->clientID = $environment[static::ENV_OAUTH_CLIENT_ID] ?: (static::DEFAULT_OAUTH_CLIENT_ID . '/' . $this->spaceID);
     }
