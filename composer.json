@@ -1,5 +1,5 @@
 {
-    "name": "spaces/oauth2",
+    "name": "spaces/oauth2-client",
     "description": "OAuth 2.0 authentication for Mittwald SPACES",
     "type": "library",
     "license": "MIT",
