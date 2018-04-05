@@ -1,5 +1,8 @@
 # SPACES OAuth2.0 authentication
 
+[![Build Status](https://travis-ci.org/mittwald/spaces-auth.svg?branch=master)](https://travis-ci.org/mittwald/spaces-auth)
+[![Packagist](https://img.shields.io/packagist/v/spaces/oauth2-client.svg)](https://packagist.org/packages/spaces/oauth2-client)
+
 Client library to integrate an OAuth2.0 authorization flow into PHP
 applications.
 
