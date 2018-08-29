@@ -73,9 +73,13 @@ class SpacesProvider extends GenericProvider
 
     protected function createResourceOwner(array $response, AccessToken $token)
     {
+        if (isset($response['profile'])) {
+            $response = array_merge($response['profile'], $response);
+            unset($response['profile']);
+        }
+
         return new SpacesResourceOwner(
             $response,
-            $response["profile"]["id"],
             $this->opts->isSupportLoginAllowed()
         );
     }
