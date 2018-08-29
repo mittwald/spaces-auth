@@ -13,20 +13,17 @@ use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 class SpacesResourceOwner implements ResourceOwnerInterface
 {
     private $response;
-    private $resourceOwnerId;
     private $allowSupportLogin;
 
     /**
      * Creates a new SPACES resource owner.
      *
      * @param array  $response          The raw response data
-     * @param string $resourceOwnerId   The resource owner ID
      * @param bool   $allowSupportLogin Allow customer support login
      */
-    public function __construct(array $response, $resourceOwnerId, $allowSupportLogin = true)
+    public function __construct(array $response, $allowSupportLogin = true)
     {
         $this->response = $response;
-        $this->resourceOwnerId = $resourceOwnerId;
         $this->allowSupportLogin = $allowSupportLogin;
     }
 
@@ -47,7 +44,7 @@ class SpacesResourceOwner implements ResourceOwnerInterface
      */
     public function getEmailAddress()
     {
-        return $this->response["profile"]["email"];
+        return $this->response["email"];
     }
 
     /**
@@ -57,8 +54,8 @@ class SpacesResourceOwner implements ResourceOwnerInterface
      */
     public function getFullName()
     {
-        $first = isset($this->response["profile"]["firstName"]) ? $this->response["profile"]["firstName"] : "";
-        $last = isset($this->response["profile"]["lastName"]) ? $this->response["profile"]["lastName"] : "";
+        $first = isset($this->response["firstName"]) ? $this->response["firstName"] : "";
+        $last = isset($this->response["lastName"]) ? $this->response["lastName"] : "";
 
         return trim($first . " " . $last);
     }
@@ -91,7 +88,7 @@ class SpacesResourceOwner implements ResourceOwnerInterface
      */
     public function getId()
     {
-        return $this->resourceOwnerId;
+        return $this->response['id'];
     }
 
     /**
