@@ -10,13 +10,11 @@ class SpacesResourceOwnerTest extends TestCase
     {
         return new SpacesResourceOwner([
             "role" => $role,
-            "profile" => [
-                "firstName" => "Max",
-                "lastName" => "Mustermann",
-                "email" => "max@mustermann.example",
-                "id" => "85b3b4a0-560e-477a-9f28-badd57fc2d01",
-            ],
-        ], "85b3b4a0-560e-477a-9f28-badd57fc2d01", $allowSupportLogin);
+            "firstName" => "Max",
+            "lastName" => "Mustermann",
+            "email" => "max@mustermann.example",
+            "id" => "85b3b4a0-560e-477a-9f28-badd57fc2d01",
+        ], $allowSupportLogin);
     }
 
     public function testOwnersHaveAdminAccess()
@@ -63,12 +61,10 @@ class SpacesResourceOwnerTest extends TestCase
     {
         $owner = new SpacesResourceOwner([
             "role" => "member",
-            "profile" => [
-                "firstName" => "Max",
-                "email" => "max@mustermann.example",
-                "id" => "85b3b4a0-560e-477a-9f28-badd57fc2d01",
-            ],
-        ], "85b3b4a0-560e-477a-9f28-badd57fc2d01", true);
+            "firstName" => "Max",
+            "email" => "max@mustermann.example",
+            "id" => "85b3b4a0-560e-477a-9f28-badd57fc2d01",
+        ], true);
         assertThat($owner->getFullName(), equalTo("Max"));
     }
 
@@ -76,12 +72,10 @@ class SpacesResourceOwnerTest extends TestCase
     {
         $owner = new SpacesResourceOwner([
             "role" => "member",
-            "profile" => [
-                "lastName" => "Mustermann",
-                "email" => "max@mustermann.example",
-                "id" => "85b3b4a0-560e-477a-9f28-badd57fc2d01",
-            ],
-        ], "85b3b4a0-560e-477a-9f28-badd57fc2d01", true);
+            "lastName" => "Mustermann",
+            "email" => "max@mustermann.example",
+            "id" => "85b3b4a0-560e-477a-9f28-badd57fc2d01",
+        ], true);
         assertThat($owner->getFullName(), equalTo("Mustermann"));
     }
 }

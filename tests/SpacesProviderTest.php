@@ -98,7 +98,11 @@ class SpacesProviderTest extends TestCase
     {
         $requests = [];
         $mock = new MockHandler([
-            new Response(200, [], json_encode(["role" => "owner", "profile" => ["id" => "some-uuid", "email" => "m.mustermann@example.com"]]))
+            new Response(200, [], json_encode([
+                "role" => "owner",
+                "id" => "some-uuid",
+                "email" => "m.mustermann@example.com"
+            ])),
         ]);
         $handler = HandlerStack::create($mock);
         $handler->push(Middleware::history($requests));
@@ -115,6 +119,45 @@ class SpacesProviderTest extends TestCase
         $owner = $this->sut->getResourceOwner($token);
 
         assertThat($owner->getId(), equalTo("some-uuid"));
+        assertThat($owner->getEmailAddress(), equalTo("m.mustermann@example.com"));
+        assertThat($owner->getRole(), equalTo("owner"));
+
+        assertThat($requests, countOf(1));
+        assertThat($requests[0]["request"], logicalAnd(
+            hasMethod("GET"),
+            hasHeader("X-Access-Token", "secret-token")
+        ));
+    }
+
+    public function testResourceOwnerIsRetrievedCorrectlyWhenMerged()
+    {
+        $requests = [];
+        $mock = new MockHandler([
+            new Response(200, [], json_encode([
+                "role" => "owner",
+                "profile" => [
+                    "id" => "some-uuid",
+                    "email" => "m.mustermann@example.com",
+                    "role" => "allowBeOverwrittenByHigherRole",
+                ],
+            ]))
+        ]);
+        $handler = HandlerStack::create($mock);
+        $handler->push(Middleware::history($requests));
+        $client = new Client(["handler" => $handler]);
+
+        $this->sut = new SpacesProvider(
+            new StaticOptions("https://signup.spaces.example", "some-space-id", "spaces.de/oauth/test", true),
+            new StaticContext("https://application.example/oauth-redir"),
+            [],
+            ["httpClient" => $client]
+        );
+
+        $token = new AccessToken(["access_token" => "secret-token"]);
+        $owner = $this->sut->getResourceOwner($token);
+
+        assertThat($owner->getId(), equalTo("some-uuid"));
+        assertThat($owner->getEmailAddress(), equalTo("m.mustermann@example.com"));
         assertThat($owner->getRole(), equalTo("owner"));
 
         assertThat($requests, countOf(1));
